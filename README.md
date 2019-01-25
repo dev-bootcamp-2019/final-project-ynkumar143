@@ -1,6 +1,6 @@
 # Demo of Application
 
-https://drive.google.com/drive/u/0/folders/1VhUl2R9NjlI_cAhlgbYZOyqRfKuvMcBf
+https://drive.google.com/drive/folders/1VhUl2R9NjlI_cAhlgbYZOyqRfKuvMcBf
 
 # Auction Platform on Blockchain
 
