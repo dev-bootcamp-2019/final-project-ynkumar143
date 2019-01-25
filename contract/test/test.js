@@ -13,16 +13,6 @@ contract('Auction', function(accounts) {
     it("Create Asset", async () => {
 
         let res1 = await assetRegistration.createAsset("assetunqieu", assetDetails, web3.eth.accounts[1], "Monalisa", "ANF001", "123" , "DATE" , 1 ,  { from: web3.eth.accounts[1] });
-
-        // const log = res1.logs.find(({ event }) => event == 'CreateAssetEvent');
-        // let assetID = log.args.assetID;
-        // assert.notEqual(log, undefined); // Check that an event was logged
-        // assert.equal(assetID, "AST000001");
-    
-        // let assetIDFromToken = await eternalStorage.getString(config.soliditySha3("asset.AssetIDFromTokenID", log.args.tokenID));
-        // console.log("The Asset ID is", assetIDFromToken)
-    
-        // assert.equal(assetIDFromToken, "AST000001");
     
         let resToken = await erc721Address.tokensOfOwner(web3.eth.accounts[1]);
         console.log("Tokens of Owner are", resToken.valueOf());    
