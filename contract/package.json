@@ -1,0 +1,49 @@
+{
+  "name": "final-project-ynkumar143",
+  "version": "1.0.0",
+  "description": "Auction platform on Blockchain",
+  "repository": {
+    "type": "git",
+    "url": "<none>"
+  },
+  "author": "Nagendra Kumar Y <ynkumar.nagendra@gmail.com>",
+  "scripts": {
+    "console": "truffle console",
+    "compile": "truffle compile",
+    "migrate": "truffle migrate",
+    "format": "prettier --write '**/*.js'"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "ganache-cli": "^6.1.8",
+    "prettier": "^1.10.2",
+    "solidity-coverage": "^0.5.11",
+    "solint": "0.0.1",
+    "truffle": "^4.1.14",
+    "truffle-contract": "^3.0.6",
+    "web3": "^1.0.0-beta.36",
+    "web3-utils": "^1.0.0-beta.36"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120,
+    "trailingComma": "es5"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "jsonfile": "^4.0.0",
+    "scrypt": "^6.0.3",
+    "web3": "^1.0.0-beta.36"
+  },
+  "main": "truffle.js",
+  "directories": {
+    "test": "test"
+  },
+  "license": "ISC"
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Auction Platform on Blockchain",
+  "version": "1.0.0",
+  "description": "Create an online auction platform that operates on the blockchain",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nagendra Kumar Y (ynkumar.nagendra@gmail.com)",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "ethereumjs-tx": "^1.3.7",
+    "express": "^4.16.4",
+    "ganache-cli": "^6.2.3",
+    "web3": "^1.0.0-beta.37",
+    "winston": "^3.1.0"
+  }
+}

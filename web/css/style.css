@@ -1,0 +1,539 @@
+.body-index{
+    font-family: Arial;
+    background: black !important;
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+}
+
+* {box-sizing: border-box}
+/* Full-width input fields */
+input[type=text], input[type=password] {
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+}
+
+
+#optioninList {
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+}
+
+#list {
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+}
+
+.th-register-style{
+    border: 0px solid black;
+}
+/* Add a background color when the inputs get focus */
+input[type=text]:focus, input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+button {
+    background-color: red;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+}
+
+/* Set a style for all buttons */
+
+button:hover {
+    opacity:1;
+}
+
+
+
+.line-in-middle {
+    width:100px;
+    height:200px;
+    background: linear-gradient(to right,
+    transparent 0%,
+    transparent calc(50% - 0.81px),
+    black calc(50% - 0.8px),
+    black calc(50% + 0.8px),
+    transparent calc(50% + 0.81px),
+    transparent 100%);
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+    padding: 14px 20px;
+    background-color: #f44336;
+}
+
+/* Extra styles for the cancel button */
+.homebtn {
+    padding: 10px 10px;
+    background-color: green;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtn, .signupbtn, .loginbtn{
+    float: left;
+    width: 50%;
+}
+
+/* Add padding to container elements */
+#container {
+    padding: 16px;
+}
+
+#container-reg {
+    display: none;
+    padding: 16px;
+}
+
+/* The Modal (background) */
+.modal-index {
+    display: none; /* Hidden by default */
+    z-index: 1; /* Sit on top */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: #474e5d;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+
+}
+
+/* Modal Content/Box */
+.modal-content-index {
+    padding: 16px;
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 0px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.modal-1 {
+    background-color: #fefefe;
+    margin: 10% 10% 10% 10%; /* 5% from the top, 15% from the bottom and centered */
+}
+
+/* Style the horizontal ruler */
+hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+}
+
+/* The Close Button (x) */
+.close {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #f1f1f1;
+}
+
+.close:hover,
+.close:focus {
+    color: #f44336;
+    cursor: pointer;
+}
+
+
+/* Clear floats */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+/* Change styles for cancel button and signup button on extra small screens */
+@media screen and (max-width: 300px) {
+    .cancelbtn, .signupbtn, .loginbtn {
+        width: 100%;
+    }
+}
+/* Effect for loading like youtube page.*/
+
+.column {
+    z-index: 1; /* Sit on top */
+    float: right;
+    width: 50%;
+    padding: 0 2em;
+    min-height: 50%;
+    position: relative;
+    text-align: left;
+}
+
+.column:nth-child(2) {
+    text-align: left;
+}
+
+.column p {
+    font-weight: 300;
+    font-size: 1em;
+    padding: 0 0 0.5em;
+    margin: 0;
+    line-height: 1.5;
+}
+
+
+.rbei-home-anim-1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 3px;
+    background: #ed4e6e;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+    pointer-events: none;
+}
+
+.rbei-home-anim-1::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100%;
+    background: #ed4e6e;
+    box-shadow: 0 0 15px #ed4e6e, 0 0 5px #ed4e6e;
+    content: '';
+    opacity: 0;
+    -webkit-transition: opacity 0.2s, box-shadow 2s 4s;
+    transition: opacity 0.2s, box-shadow 2s 4s;
+    -webkit-transform: rotate(2deg) translateY(-2px);
+    transform: rotate(2deg) translateY(-2px);
+}
+
+.rbei-home-anim-1.la-animate {
+    z-index: 100;
+    opacity: 0;
+    -webkit-transition: -webkit-transform 2s ease-in, opacity 1s 5s;
+    transition: transform 2s ease-in, opacity 1s 2s;
+    -webkit-transform: translate3d(0%, 0, 0);
+    transform: translate3d(0%, 0, 0);
+}
+
+.rbei-home-anim-1.la-animate::after {
+    box-shadow: 0 0 3px #ed4e6e, 0 0 1px #ed4e6e;
+    opacity: 1;
+}
+/* The snackbar - position it at the bottom and in the middle of the screen */
+#snackbar {
+    visibility: hidden; /* Hidden by default. Visible on click */
+    min-width: 250px; /* Set a default minimum width */
+    margin-left: -125px; /* Divide value of min-width by 2 */
+    background-color: #ed4e6e; /* Black background color */
+    color: #fff; /* White text color */
+    text-align: center; /* Centered text */
+    border-radius: 2px; /* Rounded borders */
+    padding: 6px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    z-index: 1; /* Add a z-index if needed */
+    left: 50%; /* Center the snackbar */
+    top: 10px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+    visibility: visible; /* Show the snackbar */
+
+    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+    However, delay the fade out process for 2.5 seconds */
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+    from {top: 0; opacity: 0;}
+    to {top: 10px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {top: 0; opacity: 0;}
+    to {top: 10px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {top: 10px; opacity: 1;}
+    to {top: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {top: 10px; opacity: 1;}
+    to {top: 0; opacity: 0;}
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.js-pscroll {
+    position: relative;
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+}
+
+th, td {
+    font-weight: unset;
+    padding-right: 10px;
+}
+
+
+.table100 .ps__rail-y {
+    width: 9px;
+    background-color: transparent;
+    opacity: 1 !important;
+    right: 5px;
+}
+
+.table100 .ps__rail-y::before {
+    content: "";
+    display: block;
+    position: absolute;
+    background-color: #ebebeb;
+    border-radius: 5px;
+    width: 100%;
+    height: calc(100% - 30px);
+    left: 0;
+    top: 15px;
+}
+
+.table100 .ps__rail-y .ps__thumb-y {
+    width: 100%;
+    right: 0;
+    background-color: transparent;
+    opacity: 1 !important;
+}
+
+.table100 .ps__rail-y .ps__thumb-y::before {
+    content: "";
+    display: block;
+    position: absolute;
+    background-color: #cccccc;
+    border-radius: 5px;
+    width: 100%;
+    height: calc(100% - 30px);
+    left: 0;
+    top: 15px;
+}
+
+.table100 {
+    width: 40%; /* Set a default minimum width */
+    background-color: #fff; /* Black background color */
+    text-align: center; /* Centered text */
+    border-radius: 2px; /* Rounded borders */
+    padding: 6px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    z-index: 1; /* Add a z-index if needed */
+    left: 15%; /* Center the snackbar */
+    top: 20%;
+}
+
+
+.table100-head th {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.table100-body td {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.table100-body {
+    max-height: 800px;
+    overflow: auto;
+}
+
+
+/*==================================================================
+[ Ver1 ]*/
+
+.table100.ver1 th {
+    font-size: 18px;
+    color: #fff;
+    line-height: 1.4;
+    background-color: grey;
+}
+
+.table100.ver1 td {
+    font-size: 15px;
+    color: #808080;
+    line-height: 1.4;
+
+}
+
+.table100.ver1 .table100-body tr:nth-child(even) {
+    background-color: #f8f6ff;
+}
+
+.table100.ver1 .table100-body td:nth-child(6) {
+   display: none;
+}
+
+
+/*---------------------------------------------*/
+
+.table100.ver1 {
+    /*border-radius: 10px;*/
+    overflow: hidden;
+    box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+    -o-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+    -ms-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+}
+
+.table100.ver1 .ps__rail-y {
+    right: 5px;
+}
+
+.table100.ver1 .ps__rail-y::before {
+    background-color: #ebebeb;
+}
+
+.table100.ver1 .ps__rail-y .ps__thumb-y::before {
+    background-color: #cccccc;
+}
+
+
+.table200 .ps__rail-y {
+    width: 9px;
+    background-color: transparent;
+    opacity: 1 !important;
+    right: 5px;
+}
+
+.table200 .ps__rail-y::before {
+    content: "";
+    display: block;
+    position: absolute;
+    background-color: #ebebeb;
+    border-radius: 5px;
+    width: 100%;
+    height: calc(100% - 30px);
+    left: 0;
+    top: 15px;
+}
+
+.table200 .ps__rail-y .ps__thumb-y {
+    width: 100%;
+    right: 0;
+    background-color: transparent;
+    opacity: 1 !important;
+}
+
+.table200 .ps__rail-y .ps__thumb-y::before {
+    content: "";
+    display: block;
+    position: absolute;
+    background-color: #cccccc;
+    border-radius: 5px;
+    width: 100%;
+    height: calc(100% - 30px);
+    left: 0;
+    top: 15px;
+}
+
+.table200 {
+    width: 40%; /* Set a default minimum width */
+    background-color: #fff; /* Black background color */
+    text-align: center; /* Centered text */
+    border-radius: 2px; /* Rounded borders */
+    padding: 6px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    z-index: 1; /* Add a z-index if needed */
+    left: 56%; /* Center the snackbar */
+    top: 20%;
+}
+
+
+.table200-head th {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 10px;
+}
+
+.table200-body td {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 10px;
+}
+
+
+.table200-body {
+    cellspacing: 10px;
+    max-height: 150px;
+    overflow: auto;
+}
+
+
+/*==================================================================
+[ Ver1 ]*/
+
+.table200.ver1 th {
+    font-size: 18px;
+    color: #fff;
+    line-height: 1.4;
+    background-color: #4CAF50;
+}
+
+.table200.ver1 td {
+    font-size: 15px;
+    color: #808080;
+    line-height: 1.4;
+}
+
+.table200.ver1 .table200-body tr:nth-child(even) {
+    background-color: #f8f6ff;
+}
+
+
+.table200.ver1 .table200-body td:nth-child(6) {
+    display: none;
+}
+
+
+/*---------------------------------------------*/
+
+.table200.ver1 {
+    /*border-radius: 10px;*/
+    overflow: hidden;
+    box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+    -o-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+    -ms-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+}
+
+.table200.ver1 .ps__rail-y {
+    right: 5px;
+}
+
+.table200.ver1 .ps__rail-y::before {
+    background-color: #ebebeb;
+}
+
+.table200.ver1 .ps__rail-y .ps__thumb-y::before {
+    background-color: #cccccc;
+}

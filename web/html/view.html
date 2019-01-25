@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Auction Platform on BlockChain</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="static/css/perfect-scrollbar.css">
+    <script src="static/js/contracts.js"></script>
+    <script src="static/js/classie.js"></script>
+    <link rel="stylesheet" href="static/css/simplebar.css">
+    <!-- Bootstrap Js CDN -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+</head>
+
+<body>
+    <div class="rbei-home-anim-1">
+    </div>
+
+    <!-- Wrapper content to display balance information -->
+    <div class="wrapper">
+        <p style="text-align: left; position: fixed; top:20px; right:0%;">
+            <br> Your Address <span id="address" style="font-weight: bold"></span>
+            <br> ERC20 Token is: <span id="balance" style="font-weight: bold"></span>
+            <a onclick="getBalance();">(Click)</a>
+            <br> Assets Owning (ERC721 Token Balance): <span id="assetBalance" style="font-weight: bold"></span>
+            <a onclick="getAssetBalance();">(Click)</a>
+            <br>
+        </p>
+    </div>
+
+    <button type="button" class="homebtn" onclick="window.location.href='/'">Home Page (Click Here)</button>
+
+    <div id="snackbar"></div>
+
+    <!-- Modal To Start Auction -->
+    <div id="myModalAuction" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Auction Start</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" onsubmit="event.preventDefault();startAuction();">
+
+                        <label><b>Auction ID : </b></label>
+                        <span id="auctionId" style="font-weight: normal"></span><br>
+
+                        <label><b>Reserve Price*</b></label>
+                        <input type="text" placeholder="Enter Reserve PriceEx: 1000" name="rsvprice" id="rsvprice"
+                            required>
+
+                        <div class="clearfix">
+                            <button id='login' class="signupbtn">START</button>
+                        </div>
+                        <br>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bid Modal for placing Bid by bidder -->
+    <div id="myModalBid" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Place Bid</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form method="post" onsubmit="event.preventDefault();bidAuction();">
+
+                        <label><b>Auction ID : </b></label>
+                        <span id="bidauctionId" style="font-weight: normal"></span><br>
+
+                        <label><b>Bid Price*</b></label>
+                        <input type="text" placeholder="Enter Bid Price (Ex: 1000)" name="bidprice" id="bidprice"
+                            required>
+
+                        <div class="clearfix">
+                            <button id='login' class="signupbtn">BID</button>
+                        </div>
+                        <br>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Asset Details for Asset -->
+    <div id="myModalDetails" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Asset Details For AssetID : <span id="assetID" style="font-weight: normal"></span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td><b>Asset Name: </b></td>
+                                <td><span id="assetName" style="font-weight: normal"></span></td>
+                            </tr>
+                            <tr>
+                                <td><b>Asset ID: </b></td>
+                                <td><span id="assetIDDetails" style="font-weight: normal"></span></td>
+                            </tr>
+                            <tr>
+                                <td><b>Asset Value: </b></td>
+                                <td><span id="assetValue" style="font-weight: normal"></span></td>
+                            </tr>
+
+                            <tr>
+                                <td><b>Asset Date: </b></td>
+                                <td><span id="assetDate" style="font-weight: normal"></span></td>
+                            </tr>
+
+                            <tr>
+                                <td><b>Asset Status: </b></td>
+                                <td><span id="assetStatus" style="font-weight: normal"></span></td>
+                            </tr>
+                        </thead>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- View the Number of Bids placed for each Auction -->
+    <div id="myModalBidView" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Place Bid</h4>
+                </div>
+                <div class="modal-body">
+                    <label><b>Auction ID : </b></label>
+                    <span id="viewauctionId" style="font-weight: normal"></span><br>
+                    <div class="table100Bid-body js-pscroll">
+
+                        <table id="TableTranSentBid">
+                            <tr>
+                                <td>Bid</td>
+                                <td>Value</td>
+                                <td>User</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" onclick="event.preventDefault();stopAuction();">STOP</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="transmsg"></div>
+
+    <div class="table100 ver1 m-b-110">
+        <h4>List of Assets</h4>
+        ( ERC721 Tokens created for each Unique Asset: <span id="assetCount" style="font-weight: bold">Fetching......</span>)
+        <br>
+        <br>
+
+
+        </span>
+        <div class="table100-body js-pscroll">
+            <table id="TableTranSent">
+                <tr>
+                    <td style="font-weight:bold">Token ID</td>
+                    <td style="font-weight:bold">Action</td>
+                    <td style="font-weight:bold">Owner</td>
+                    <td style="font-weight:bold">Bids</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="table200 ver1 m-b-110">
+        <span float="left" style="text-align:left;font-weight: normal">
+            <b>Instructions</b><br>
+            <br>
+
+            1) Token ID: Uniquely Created NFT ID for asset registered in Home Page<br>
+            2) Action: Specifies action to be performed by each User (Refer to User Stories in Readme Page)<br>
+            3) Owner: Displays the ownership of current asset<br>
+            4) Bids : Displays list of bids placed for that auction<br>
+            5) Track the Asset Status(REGISTERED, MARKET, SOLD, UNSOLD) in View Information of each asset <br>
+
+            <br>
+            <b>User Actions</b><br>
+            <br>
+            A) Asset owner user will have option to Start the Auction (If Owner is "YES", Auction Button will pop up)<br>
+            B) User placing Bid the action will be "BID" <br>
+            C) Placed Bids can be seen in Bids Page <br>
+            D) Owner of the Asset can Stop Auction in Bids View Pop window <br>
+            <br>
+            <b>Backend Operations</b>
+            <br>
+            <br>
+            I) Asset Registeration will start an Auction Pool by mapping unique id(NFT ID) of Asset <br>
+            II) After placing Bid by bidder, asset owner request approval of tokens for the bid cost <br>
+            III) On Successful Close of Auction, asset(NFT) is transferred to selected bid owner and ERC20 tokens are
+            deducted from selected bidder to Owner <br>
+    </div>
+
+    <p class="navbar-text navbar-fixed-bottom" style="text-align: center; font-size: 12px; color: black;">Copyright@
+        ynkumar.nagendra@gmail.com - 2018</p>
+
+</body>
+
+</html>
+
+<!--===============================================================================================-->
+<script src="static/js/perfect-scrollbar.min.js"></script>
+<script>
+    $('.js-pscroll').each(function () {
+        var ps = new PerfectScrollbar(this);
+
+        $(window).on('resize', function () {
+            ps.update();
+        })
+    });
+</script>
+
+<script typ="text/javascript">
+
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+    });
+
+
+    (function () {
+        var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+        link.type = 'image/x-icon';
+        link.rel = 'shortcut icon';
+        link.href = 'static/images/icon.png';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    })();
+
+    var inProgress = false;
+    $(document).ready(function () {
+        animEl = document.querySelector('.rbei-home-anim-1');
+        if (inProgress) return false;
+        inProgress = true;
+        classie.add(animEl, 'la-animate');
+        setTimeout(function () {
+            classie.remove(animEl, 'la-animate');
+            inProgress = false;
+        }, 6000);
+
+    });
+
+    //Snippet to ask the access function of the 
+    window.addEventListener('load', async () => {
+        // Modern dapp browsers...
+        if (window.ethereum) {
+            window.web3 = new Web3(ethereum);
+            try {
+                // Request account access if needed
+                await ethereum.enable();
+                // Acccounts now exposed
+                web3.eth.sendTransaction({/* ... */ });
+            } catch (error) {
+                // User denied account access...
+            }
+        }
+        // Legacy dapp browsers...
+        else if (window.web3) {
+            window.web3 = new Web3(web3.currentProvider);
+            // Acccounts always exposed
+            web3.eth.sendTransaction({/* ... */ });
+        }
+        // Non-dapp browsers...
+        else {
+            console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+        }
+    });
+
+    // Now we routed the web3 provider and if metamask is not available fallback also happened.
+    if (!web3.isConnected()) {
+        alert("Start a local node and uncomment the statements above");
+    } else {
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+    }
+
+    web3.eth.getAccounts((err, res) => {
+        document.getElementById("address").innerHTML = res[0];
+        // console.log(res[0]);
+    });
+
+    //Asset Registration ABI and Contract address to create instance
+    var assetAbi = JSON.parse('[{"constant":true,"inputs":[],"name":"version","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x54fd4d50"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x8da5cb5b"},{"constant":true,"inputs":[],"name":"eternalStorage","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x98ff9c54"},{"constant":true,"inputs":[],"name":"erc721Contract","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0xd7c97fb4"},{"inputs":[{"name":"_eternalStorageAddress","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor","signature":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"uniqueID","type":"string"},{"indexed":false,"name":"assetDetails","type":"string"},{"indexed":false,"name":"assetID","type":"string"},{"indexed":false,"name":"tokenID","type":"uint256"},{"indexed":false,"name":"owner","type":"address"}],"name":"CreateAssetEvent","type":"event","signature":"0xfa5971cef15560d53382a4ff1e203e904e3e664a1c0667c467807e7d8fb814b9"},{"constant":false,"inputs":[{"name":"_name","type":"string"},{"name":"_id","type":"string"},{"name":"_date","type":"string"},{"name":"_value","type":"string"},{"name":"_status","type":"uint256"}],"name":"createAsset","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x6123fd70"},{"constant":false,"inputs":[{"name":"_tokenId","type":"uint256"},{"name":"status","type":"uint256"}],"name":"updateAsset","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x669b9008"},{"constant":true,"inputs":[{"name":"_tokenId","type":"uint256"}],"name":"getAssetDetails","outputs":[{"name":"name","type":"string"},{"name":"id","type":"string"},{"name":"date","type":"string"},{"name":"value","type":"string"},{"name":"status","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0xa1f24b3d"}]');
+    var contract_address_asset = contracts.list.assetContract
+
+    //Asset Registration Instance to access in whole page
+    var assetRegistry = web3.eth.contract(assetAbi).at(contract_address_asset);
+
+    //ERC721 ABI script and contract address to create instance
+    var erc721Abi = JSON.parse('[{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"tokenIndexToOwner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x1d36e06c"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"tokenStatusToID","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x442cefc6"},{"constant":true,"inputs":[],"name":"version","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x54fd4d50"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x8da5cb5b"},{"constant":true,"inputs":[],"name":"eternalStorage","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x98ff9c54"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"tokenIndexToApproved","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0xa8bd9c32"},{"constant":true,"inputs":[{"name":"","type":"address"},{"name":"","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0xdd62ed3e"},{"inputs":[{"name":"_n","type":"string"},{"name":"_s","type":"string"},{"name":"_eternalStorageAddress","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor","signature":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"to","type":"address"},{"indexed":false,"name":"tokenId","type":"uint256"}],"name":"Transfer","type":"event","signature":"0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"},{"anonymous":false,"inputs":[{"indexed":false,"name":"owner","type":"address"},{"indexed":false,"name":"approved","type":"address"},{"indexed":false,"name":"tokenId","type":"uint256"}],"name":"Approval","type":"event","signature":"0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925"},{"anonymous":false,"inputs":[{"indexed":false,"name":"assetID","type":"string"},{"indexed":false,"name":"owner","type":"address"}],"name":"Birth","type":"event","signature":"0x4040b90ed00835c4b959e11514b3b9bfc6916c42134add9e88560198b3942871"},{"anonymous":false,"inputs":[{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"to","type":"address"},{"indexed":false,"name":"tokenId","type":"uint256"},{"indexed":false,"name":"time","type":"uint256"}],"name":"Transfer","type":"event","signature":"0x9ed053bb818ff08b8353cd46f78db1f0799f31c9e4458fdb425c10eccd2efc44"},{"constant":false,"inputs":[{"name":"_assetID","type":"string"},{"name":"_owner","type":"address"}],"name":"createNFT","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x936e77ee"},{"constant":true,"inputs":[{"name":"_tokenId","type":"uint256"}],"name":"viewStatus","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0xac4640e1"},{"constant":false,"inputs":[{"name":"_tokenId","type":"uint256"},{"name":"_status","type":"uint256"}],"name":"updateStatus","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0xe2f31829"},{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x06fdde03"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x95d89b41"},{"constant":true,"inputs":[{"name":"_interfaceID","type":"bytes4"}],"name":"supportsInterface","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x01ffc9a7"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"count","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x70a08231"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_tokenId","type":"uint256"}],"name":"transfer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0xa9059cbb"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_tokenId","type":"uint256"}],"name":"approve","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x095ea7b3"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_tokenId","type":"uint256"}],"name":"transferFrom","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x23b872dd"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x18160ddd"},{"constant":true,"inputs":[{"name":"_tokenId","type":"uint256"}],"name":"ownerOf","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x6352211e"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"tokensOfOwner","outputs":[{"name":"ownerTokens","type":"uint256[]"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x8462151c"},{"constant":true,"inputs":[{"name":"_tokenId","type":"uint256"}],"name":"tokenMetadata","outputs":[{"name":"infoUrl","type":"string"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x6914db60"}]');
+    var contract_address_721 = contracts.list.erc721Contract;
+
+    //ERC721 contract instance
+    var erc721Address = web3.eth.contract(erc721Abi).at(contract_address_721);
+
+    //Marketplace / Auction ABI script
+    var auctionAbi = JSON.parse('[{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"tokenIdToAuctionId","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x2dd4a548"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"bidIdToBid","outputs":[{"name":"bidder","type":"address"},{"name":"amount","type":"uint256"},{"name":"timestamp","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x44049f6d"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"bids","outputs":[{"name":"bidder","type":"address"},{"name":"amount","type":"uint256"},{"name":"timestamp","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x4423c5f1"},{"constant":true,"inputs":[],"name":"version","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x54fd4d50"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"auctions","outputs":[{"name":"seller","type":"address"},{"name":"reservePrice","type":"uint256"},{"name":"duration","type":"uint256"},{"name":"timestamp","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x571a26a0"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x8da5cb5b"},{"constant":true,"inputs":[],"name":"eternalStorage","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x98ff9c54"},{"constant":true,"inputs":[],"name":"erc20Contract","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0xa8f6c913"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"bidIndexToAuctionPool","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0xae81130d"},{"constant":true,"inputs":[],"name":"erc721Contract","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0xd7c97fb4"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"tokenIdToAuction","outputs":[{"name":"seller","type":"address"},{"name":"reservePrice","type":"uint256"},{"name":"duration","type":"uint256"},{"name":"timestamp","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0xe3b14757"},{"inputs":[{"name":"_eternalStorageAddress","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor","signature":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"tokenId","type":"uint256"},{"indexed":false,"name":"amount","type":"uint256"},{"indexed":false,"name":"bidder","type":"address"},{"indexed":false,"name":"timestamp","type":"uint256"}],"name":"BidPlaced","type":"event","signature":"0x6f7e354ea3ab5c288aea37fce29c603f9a98a3b040f6d8f32f10e192ec47ff6a"},{"anonymous":false,"inputs":[{"indexed":false,"name":"bidId","type":"uint256"},{"indexed":false,"name":"auctionID","type":"uint256"}],"name":"AuctionID","type":"event","signature":"0x6afc7a0895495986afc23aba729cc8ed2554a0253e17dc5ec9dd764404491cfa"},{"anonymous":false,"inputs":[{"indexed":false,"name":"","type":"uint256"}],"name":"TotalValue","type":"event","signature":"0x0902875f146e3c94efa8a238c6b708eb8d0e5f45a6d9fc8cbf7072dcc93abfa5"},{"anonymous":false,"inputs":[{"indexed":false,"name":"bidID","type":"uint256"},{"indexed":false,"name":"tokenID","type":"uint256"},{"indexed":false,"name":"bidAmount","type":"uint256"},{"indexed":false,"name":"bidOwner","type":"address"}],"name":"FinalizedBid","type":"event","signature":"0x9c0937934d3caa87f92984d6f11cb31545573a710f3be58c55f5f6a24540ddaa"},{"anonymous":false,"inputs":[{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"to","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"MoneyTransferred","type":"event","signature":"0xa1d7584d99165acdda7faf8e4dd6f4a82d358341586d4d953060fb95c3f31e6f"},{"anonymous":false,"inputs":[{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"to","type":"address"},{"indexed":false,"name":"tokenId","type":"uint256"}],"name":"AssetTransferred","type":"event","signature":"0x645e52ee0ce5c05d60f4b051028f29630be7001f5d84cba67fe6872db872cff8"},{"anonymous":false,"inputs":[{"indexed":false,"name":"tokenId","type":"uint256"},{"indexed":false,"name":"reservePrice","type":"uint256"},{"indexed":false,"name":"seller","type":"address"},{"indexed":false,"name":"auctionID","type":"uint256"}],"name":"CreateAuctionEvent","type":"event","signature":"0xb9c6366c739b963b8cf06fb24dce7f713960358746db7c8b2cac08ffc07c213b"},{"constant":false,"inputs":[{"name":"_tokenId","type":"uint256"},{"name":"_reservePrice","type":"uint256"},{"name":"_duration","type":"uint256"},{"name":"_seller","type":"address"},{"name":"_timestamp","type":"uint256"}],"name":"createAuction","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x9bfd3b38"},{"constant":false,"inputs":[{"name":"_bidder","type":"address"},{"name":"_tokenId","type":"uint256"},{"name":"_amount","type":"uint256"},{"name":"_timeStamp","type":"uint256"}],"name":"createBid","outputs":[{"name":"","type":"uint256"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x5c1bce74"},{"constant":false,"inputs":[{"name":"_bidId","type":"uint256"},{"name":"_auctionId","type":"uint256"}],"name":"addBidToAuction","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0xad921023"},{"constant":true,"inputs":[{"name":"_tokenId","type":"uint256"}],"name":"getAuctionSize","outputs":[{"name":"size","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x90e5e356"},{"constant":true,"inputs":[{"name":"_bidId","type":"uint256"}],"name":"getBid","outputs":[{"name":"bidder","type":"address"},{"name":"amount","type":"uint256"},{"name":"timeStamp","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x3c889e6f"},{"constant":true,"inputs":[{"name":"_tokenId","type":"uint256"}],"name":"getAuction","outputs":[{"name":"pool","type":"uint256[]"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x78bd7935"},{"constant":true,"inputs":[{"name":"_tokenId","type":"uint256"}],"name":"getAuctionTime","outputs":[{"name":"timestamp","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0xf1b42435"},{"constant":true,"inputs":[{"name":"_tokenId","type":"uint256"}],"name":"processAuction","outputs":[{"name":"_bid_owner","type":"address"},{"name":"tokenId","type":"uint256"},{"name":"_bid_id","type":"uint256"},{"name":"_bid_high","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x20af1711"},{"constant":false,"inputs":[{"name":"_bidId","type":"uint256"},{"name":"_tokenId","type":"uint256"}],"name":"processBidToMoney","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x4e373927"},{"constant":true,"inputs":[],"name":"getBidsLength","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0xd879914a"}]');
+    var contract_address_auction = contracts.list.marketPlaceContract;
+
+    //Marketplace contract instance
+    var auctionAddress = web3.eth.contract(auctionAbi).at(contract_address_auction);
+
+    //ERC20 Contract ABI and contract addrress
+    var erc20abi = JSON.parse('[{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x18160ddd"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balances","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x27e235e3"},{"constant":true,"inputs":[],"name":"version","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x54fd4d50"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x8da5cb5b"},{"constant":true,"inputs":[],"name":"eternalStorage","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x98ff9c54"},{"constant":true,"inputs":[{"name":"","type":"address"},{"name":"","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0xdd62ed3e"},{"inputs":[{"name":"_name","type":"string"},{"name":"_symbol","type":"string"},{"name":"_decimals","type":"uint8"},{"name":"_eternalStorageAddress","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor","signature":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Transfer","type":"event","signature":"0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"},{"indexed":false,"name":"_value","type":"uint256"},{"indexed":false,"name":"_time","type":"uint256"}],"name":"TransferDirect","type":"event","signature":"0xd807656f6b9551fff7a6bc92ee9aae77ab2fcd5acdb5a4b966c1d91566363d81"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_owner","type":"address"},{"indexed":true,"name":"_spender","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Approval","type":"event","signature":"0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925"},{"constant":true,"inputs":[{"name":"tokenOwner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x70a08231"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0xa9059cbb"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x23b872dd"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x095ea7b3"},{"constant":true,"inputs":[{"name":"_spender","type":"address"}],"name":"getAllowance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0xeb5a662e"}]');
+    var contract_address_erc20 = contracts.list.erc20ContractAddress;
+
+    var erc20Address = web3.eth.contract(erc20abi).at(contract_address_erc20);
+
+    //Fetch assets after 5 seconds
+    setTimeout(function () { fetchAssets(); }, 3000);
+
+    //Fetch ERC721 Token Balance
+    function getAssetBalance() {
+
+        document.getElementById("assetBalance").innerHTML = "";
+        var address_local = document.getElementById("address").innerHTML;
+
+        console.log("Fetching balance from address", address_local);
+        erc721Address.balanceOf(address_local, (error, balance) => {
+            console.log("Balance is", balance.toString());
+            document.getElementById("assetBalance").innerHTML = balance.toString() + " NFT";
+        });
+    };
+
+    //Function that fetch assets from erc721 contract and pushes into tokensArray
+    function fetchAssets() {
+
+        var tokensArray = [];
+        var address = document.getElementById("address").innerHTML;
+
+        erc721Address.totalSupply((error, balance) => {
+            console.log("balance of ERC721", balance.toString());
+            document.getElementById("assetCount").innerHTML = balance;
+        });
+
+        console.log("The addres tring to featch list of  tokens", address);
+        erc721Address.tokensOfOwner(address, (error, tokens) => {
+            console.log("The list of tokens available are", tokens);
+            for (var j = 0; j < tokens.length; j++) {
+                tokensArray.push(tokens[j].toString());
+            }
+        });
+
+        //Fetch Asset list and dynamically generate table rows and values to perform actions
+        setTimeout(function () {
+            console.log("The list of tokens stored by owner are", tokensArray);
+
+            var balance = document.getElementById("assetCount").innerHTML;
+
+            //Get Asset count and parse through each of the asset
+            for (var i = 1; i <= balance; i++) {
+
+                //Dynamically create a table id and add the infromation 
+                var p = document.getElementById("TableTranSent");
+                var row = document.createElement("tr");
+                row.className = "row100 body";
+                var cell = document.createElement("td");
+                cell.className = "cell100";
+                var cellText = document.createTextNode(i);
+                cell.appendChild(cellText);
+                row.appendChild(cell);
+                cell = document.createElement("td");
+                var success = false;
+
+                //if the token id is matching with table id then make that cell value as Auction (If it is owner)
+                //If the address is not matching it indicates the party is ready to bid for the auction
+                for (var k = 0; k < tokensArray.length; k++) {
+                    if (!success) {
+                        console.log("Comparing for values of ", tokensArray[k], i);
+                        if (i.toString().localeCompare(tokensArray[k]) == 0) {
+                            console.log("Comparision successful at", i.toString(), tokensArray[k]);
+                            cellText = document.createTextNode("Auction");
+                            success = true;
+                        } else {
+                            cellText = document.createTextNode("Bid");
+                            success = false;
+                        }
+                    }
+                }
+                if (!success) {
+                    cellText = document.createTextNode("Bid");
+                }
+                cell.appendChild(cellText);
+                row.appendChild(cell);
+
+                cell = document.createElement("td");
+                var success = false;
+
+                //Assign the ownership of asset information
+                for (var k = 0; k < tokensArray.length; k++) {
+                    if (!success) {
+                        console.log("Comparing for values of ", tokensArray[k], i);
+                        if (i.toString().localeCompare(tokensArray[k]) == 0) {
+                            console.log("Comparision successful at", i.toString(), tokensArray[k]);
+                            cellText = document.createTextNode("Yes");
+                            success = true;
+                        } else {
+                            cellText = document.createTextNode("No");
+                            success = false;
+                        }
+                    }
+                }
+                if (!success) {
+                    cellText = document.createTextNode("No");
+                }
+                cell.appendChild(cellText);
+                row.appendChild(cell);
+
+                cell = document.createElement("td");
+                cellText = document.createTextNode("View");
+                cell.appendChild(cellText);
+                row.appendChild(cell);
+                p.appendChild(row);
+            }
+
+            //Once the table is ready based on each cell click option give action modal for each user
+            $(document).ready(function () {
+                $('.table100-body tr').click(function (e) {
+                    var tr = $(this);
+                    $('td', tr).click(function (e) {
+
+                        var cell = $(e.target).get(0);
+                        var cellValue = $(cell).text();
+                        console.log("The cell contents are", $(cell).text());
+                        if (cellValue.localeCompare("Auction") == 0) {
+                            document.getElementById("auctionId").innerHTML = $(tr).find("td").eq(0).html();
+                            $("#myModalAuction").modal();
+                        } else if (cellValue.localeCompare("Bid") == 0) {
+                            document.getElementById("bidauctionId").innerHTML = $(tr).find("td").eq(0).html();
+                            $("#myModalBid").modal();
+                        } else if (cellValue.localeCompare("View") == 0) {
+                            document.getElementById("viewauctionId").innerHTML = $(tr).find("td").eq(0).html();
+                            fetchBids($(tr).find("td").eq(0).html());
+                        } else {
+                            document.getElementById("assetID").innerHTML = $(tr).find("td").eq(0).html();
+                            getAssetDetails($(tr).find("td").eq(0).html());
+                            $("#myModalDetails").modal();
+                        }
+
+                    });
+                });
+            });
+
+        }, 3000);
+    }
+
+    //Function that fetchs bids of each Auction that is triggerd for
+    function fetchBids(id) {
+
+        console.log("Fetching bids for ", id);
+
+        //Interact with Auction / Marketpace contract to get current auction details
+        auctionAddress.getAuction(id, (error, balance) => {
+            if (balance != null) {
+                $("#myModalBidView").modal();
+
+                document.getElementById("TableTranSentBid").innerHTML = "";
+
+                //Loop over each bid that is fetched in Auction and get Bid details via Promise function
+                for (var i = 1; i <= balance.length; i++) {
+
+                    if (balance[i] > 0) {
+                        console.log("Currently fetching for bid di", balance[i].toString())
+                        var str = balance[i];
+
+                        console.log('Bid ID is', str)
+
+                        var value = new Promise((resolve, reject) => {
+                            auctionAddress.getBid(i, (err, info) => {
+                                if (err) {
+                                    return reject(err)
+                                }
+                                console.log("Inside function is", info)
+                                resolve(info)
+                            })
+                        })
+                        value.then(function (result) {
+                            console.log("The information is", result)
+
+                            //Update the bid result in each of the cell
+                            cellTextBidID = result[0];
+                            cellTextBidValue = result[1];
+                            cellTextBidUser = result[2];
+
+                            //Dynamically create table element id and arrange classes to it
+                            var p = document.getElementById("TableTranSentBid");
+                            var row = document.createElement("tr");
+                            row.className = "row100Bid body";
+                            var cell = document.createElement("td");
+                            cell.className = "cell100Bid";
+                            var cellText = document.createTextNode(cellTextBidID);
+
+                            //Attach rows and cell in the table
+                            cell.appendChild(cellText);
+                            row.appendChild(cell);
+                            cell = document.createElement("td");
+
+                            //Add the information that is fetched
+                            cellText = document.createTextNode(cellTextBidValue);
+
+                            cell.appendChild(cellText);
+                            row.appendChild(cell);
+
+                            cell = document.createElement("td");
+                            cellText = document.createTextNode(cellTextBidUser);
+                            cell.appendChild(cellText);
+                            row.appendChild(cell);
+                            p.appendChild(row);
+                        })
+                    }
+                }
+            } else {
+                document.getElementById("snackbar").innerHTML = "No Bids Placed";
+                showMessage();
+            }
+        });
+    }
+
+    //Get ERC20 Balance of the address
+    function getBalance() {
+        document.getElementById("balance").innerHTML = "";
+        var address_local = document.getElementById("address").innerHTML;
+
+        console.log("Fetching balance from address", address_local);
+        erc20Address.balanceOf(address_local, (error, balance) => {
+            console.log("Balance is", balance.toString());
+            document.getElementById("balance").innerHTML = balance.toString() + " TKN";
+        });
+    };
+
+    //Start Auction for each asset that is registered
+    function startAuction() {
+        var address_local = document.getElementById("address").innerHTML;
+        var auctionID = document.getElementById("auctionId").innerHTML;
+
+        document.getElementById("snackbar").innerHTML = "";
+
+        var date = (new Date()).getTime();
+
+        //pass auction and reserve price information along with address details to start the auction
+        auctionAddress.createAuction(auctionID, $("#rsvprice").val(), 100, address_local, date, {
+            from: address_local,
+            gas: 1200000
+        }, function (error, result) {
+            if (!error) {
+                console.log("Updating asset infor for tokenid", auctionID);
+                //Once the auction is successfully placed modify the asset status to MARKET 
+                assetRegistry.updateAsset(auctionID, 2, {
+                    from: address_local,
+                    gas: 1200000
+                }, function (error, result) {
+                    if (!error) {
+                        document.getElementById("snackbar").innerHTML = "Successfully updated Asset Status recorded on Ethereum Network ! Transaction Ref.No:" + result;
+                    } else {
+                        document.getElementById("snackbar").innerHTML = "There was an error while processing record" + error;
+                    }
+                    showMessage();
+                });
+                document.getElementById("snackbar").innerHTML = "Auction started successfully recorded on Ethereum Network ! Transaction Ref.No:" + result;
+            } else {
+                document.getElementById("snackbar").innerHTML = "There was an error while processing record" + error;
+            }
+            showMessage();
+        });
+    }
+
+    //Stop Auction the owner of the asset is ready to stop the auction
+    function stopAuction() {
+        var address_local = document.getElementById("address").innerHTML;
+        var auctionID = document.getElementById("viewauctionId").innerHTML;
+
+        document.getElementById("snackbar").innerHTML = "";
+
+        auctionAddress.processAuction(auctionID, {
+            from: address_local,
+            gas: 1200000
+        }, function (error, result) {
+
+            var bid_owner;
+            var token_id;
+            var bid_id;
+            var bid_high;
+
+
+            var str = result.toString();
+            var str_array = str.split(',');
+
+            //The value that is fetched in view content of the function is parse properly to perform further operations
+            bid_owner = str_array[0];
+            token_id = str_array[1];
+            bid_id = str_array[2];
+            bid_high = str_array[3];
+
+            console.log("The values that are fetched from process Auction", bid_owner, token_id, bid_id, bid_high);
+
+            if (!error) {
+
+                if (bid_id != 0) {
+                    //Update Asset to SOLD once the auction is closed
+                    assetRegistry.updateAsset(auctionID, 3, {
+                        from: address_local,
+                        gas: 1200000
+                    }, function (error, result) {
+                        if (!error) {
+                            document.getElementById("snackbar").innerHTML = "Successfully updated Asset Status recorded on Ethereum Network ! Transaction Ref.No:" + result;
+
+                            //erc20Address.transferFrom(web3.eth.accounts[1], logprocess.args.bidOwner, logprocess.args.bidAmount, { from: logprocess.args.bidOwner });
+                            console.log("The address tring to transfe the value is from", address_local, bid_owner, bid_high);
+
+                            //Transfer approved amount of the bidder to deduct money
+                            erc20Address.transferFrom(bid_owner, address_local, bid_high, {
+                                from: address_local,
+                                gas: 1200000
+                            }, function (error, result) {
+                                if (!error) {
+
+                                    //On Successful deduction of money transfer ERC721 Token address to the bidder party
+                                    erc721Address.transfer(bid_owner, auctionID, {
+                                        from: address_local,
+                                        gas: 1200000
+                                    }, function (error, result) {
+                                        if (!error) {
+                                            document.getElementById("snackbar").innerHTML = "Asset Transferred Successfully ! Transaction Ref.No:" + result;
+                                        } else {
+                                            document.getElementById("snackbar").innerHTML = "There was an error while processing record" + error;
+                                        }
+                                        showMessage();
+                                    });
+                                    document.getElementById("snackbar").innerHTML = "Money Transferred Successfully ! Transaction Ref.No:" + result;
+                                } else {
+                                    document.getElementById("snackbar").innerHTML = "There was an error while processing record" + error;
+                                }
+                                showMessage();
+                            });
+
+                        } else {
+                            document.getElementById("snackbar").innerHTML = "There was an error while processing record" + error;
+                        }
+                        showMessage();
+                    });
+
+
+                } else {
+                    //Any Error in above operations makes the asset status to UNSOLD
+                    assetRegistry.updateAsset(auctionID, 4, {
+                        from: address_local,
+                        gas: 1200000
+                    }, function (error, result) {
+                        if (!error) {
+                            document.getElementById("snackbar").innerHTML = "Successfully updated Asset Status recorded on Ethereum Network ! Transaction Ref.No:" + result;
+                        } else {
+                            document.getElementById("snackbar").innerHTML = "There was an error while processing record" + error;
+                        }
+
+                    });
+                }
+            } else {
+                document.getElementById("snackbar").innerHTML = "There was an error while processing record" + error;
+                showMessage();
+            }
+        });
+    }
+
+    //Places bid on Each Auction
+    function bidAuction() {
+
+        var address_local = document.getElementById("address").innerHTML;
+        var bidAuctionId = document.getElementById("bidauctionId").innerHTML;
+
+        document.getElementById("snackbar").innerHTML = "";
+
+        console.log("Information trying to place in bid is", address_local, bidAuctionId, $("#bidprice").val());
+        var date = (new Date()).getTime();
+
+        console.log("Bid is placing at", date);
+
+        erc20Address.balanceOf(address_local, (error, balance) => {
+            console.log("Balance is", balance);
+
+            //Checks whether is user is having sufficient balance to place bid
+            document.getElementById("balance").innerHTML = balance.toString() + " INR";
+            var contractBalance = parseInt(balance.toString(), 10);
+            var bidAmount = parseInt($("#bidprice").val(), 10);
+            var auctionId = parseInt(bidAuctionId, 10)
+            console.log("Comparing between two values", contractBalance, bidAmount);
+
+            //If Sufficient balance is present then process for creating bind
+            if (contractBalance > bidAmount) {
+                console.log("Parameters sending to contract for Placing Bid: ", address_local, auctionId, bidAmount, date);
+
+                //CreateBid function is triggered 
+                auctionAddress.createBid(address_local, auctionId, bidAmount, date, {
+                    from: address_local,
+                    gas: 1200000
+                }, function (error, result) {
+                    if (!error) {
+
+                        //Find the owner of bid and checks for approval amount if it is not good modify the approval amount
+                        erc721Address.ownerOf(bidAuctionId, (error, owner) => {
+                            console.log("Owner is", owner);
+                            erc20Address.getAllowance(owner, {
+                                from: address_local,
+                                gas: 1200000
+                            }, function (error, allowedAmount) {
+                                if (!error) {
+                                    var approvalAmount = parseInt($("#bidprice").val())
+
+                                    var balancetoApprove;
+                                    if (allowedAmount < approvalAmount) {
+                                        balancetoApprove = approvalAmount - allowedAmount;
+                                    } else {
+                                        balancetoApprove = allowedAmount - approvalAmount;
+                                    }
+                                    console.log("Allowed amount is", allowedAmount)
+                                    console.log("Balance to Approve is", balancetoApprove)
+
+                                    //Approve the ERC20 tokens to transfer from his/her account
+                                    erc20Address.approve(owner, balancetoApprove, {
+                                        from: address_local,
+                                        gas: 1200000
+                                    }, function (error, result) {
+                                        if (!error) {
+                                            document.getElementById("snackbar").innerHTML = "Amount Authorized successfully! Transaction Ref.No:" + result;
+                                        } else {
+                                            document.getElementById("snackbar").innerHTML = "There was an error while processing record" + error;
+                                        }
+                                        showMessage();
+                                    });
+                                } else {
+                                    document.getElementById("snackbar").innerHTML = "There was an error while processing record" + error;
+                                }
+                                showMessage();
+                            });
+                        });
+                        document.getElementById("snackbar").innerHTML = "Bid place successfully recorded on Ethereum Network ! Transaction Ref.No:" + result;
+                    } else {
+                        document.getElementById("snackbar").innerHTML = "There was an error while processing record" + error;
+                    }
+                    showMessage();
+                });
+
+            } else {
+                document.getElementById("snackbar").innerHTML = "Sufficient balance is not available, Please Deposit More";
+                showMessage();
+            }
+        });
+    }
+
+    //Show message
+    function showMessage() {
+        // Get the snackbar DIV
+        var x = document.getElementById("snackbar");
+        // Add the "show" class to DIV
+        x.className = "show";
+        // After 3 seconds, remove the show class from DIV
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+    }
+
+    //Fetches asset details of each Auction that is displayed on the screen
+    function getAssetDetails(id) {
+
+        var address_local = document.getElementById("address").innerHTML;
+
+        document.getElementById("snackbar").innerHTML = "";
+
+        assetRegistry.getAssetDetails(id, {
+            from: address_local,
+            gas: 1200000
+        }, function (error, result) {
+
+            if (!error) {
+
+                console.log("The whole result is", result);
+                var str = result.toString();
+                var str_array = str.split(',');
+
+                document.getElementById("assetName").innerHTML = str_array[0];
+                document.getElementById("assetIDDetails").innerHTML = str_array[1];
+                document.getElementById("assetValue").innerHTML = str_array[2];
+                document.getElementById("assetDate").innerHTML = str_array[3];
+
+                console.log("The Status is", str_array[4]);
+                if (parseInt(str_array[4]) == 0) {
+                    document.getElementById("assetStatus").innerHTML = "REGISTER";
+
+                } else if (parseInt(str_array[4]) == 2) {
+                    document.getElementById("assetStatus").innerHTML = "MARKET";
+
+                } else if (parseInt(str_array[4]) == 3) {
+                    document.getElementById("assetStatus").innerHTML = "SOLD";
+
+                } else if (parseInt(str_array[4]) == 4) {
+                    document.getElementById("assetStatus").innerHTML = "UNSOLD";
+
+                }
+
+                document.getElementById("snackbar").innerHTML = "Displaying Asset Details";
+            } else {
+                document.getElementById("snackbar").innerHTML = "There was an error while processing record" + error;
+            }
+            showMessage();
+        });
+    }
+
+
+</script>

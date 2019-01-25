@@ -1,0 +1,5 @@
+node_modules/
+contract/build/
+contract/node_modules/
+contract/abi
+contract/bin

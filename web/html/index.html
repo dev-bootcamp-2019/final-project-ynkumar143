@@ -1,0 +1,165 @@
+<head>
+    <title>Auction Platform on BlockChain</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/simplebar.css">
+    <script type="text/javascript" src="static/js/jquery.min.js"></script>
+    <script src="static/js/classie.js"></script>
+    <script src="static/js/contracts.js"></script>
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <p style="text-align: left; position: fixed; top:20px; right:0%;">
+            <br> Your Address <span id="address" style="font-weight: bold"></span>
+            <br> ERC20 Token Balance is: <span id="balance" style="font-weight: bold"></span>
+            <a onclick="getBalance();">(Click)</a>
+            <br>
+            
+        </p>
+    </div>
+
+    <!-- snackbar that will pop up the result of function -->
+    <div id="snackbar"></div>
+    <button type="button" class="homebtn" onclick="window.location.href='/view'">Auction Page (Click Here)</button>
+
+    <form class="modal-1" method="post" onsubmit="event.preventDefault();registerAsset();" id="login-form">
+           <br>
+           <br>
+            <h4>Description: Owner of item accounces item is up for sale, sets the reserved price and submits in
+            Marketplace. (Unique Name, Unique ID, Amount).
+            Accessibility is given to owner only.
+        </h4>
+
+        <h2>Register Asset</h2>
+        <br>
+
+        <label><b>Asset Name*</b></label>
+        <input type="text" placeholder="Enter asset Name Ex: Monalisa" name="astname" id="astname" required>
+
+        <label><b>Asset ID*</b></label>
+        <input type="text" placeholder="Enter asset Name Ex: AS0992939" name="astid" id="astid" required>
+
+        <label><b>Asset Value*</b></label>
+        <input type="text" placeholder="Enter Amount" name="astvalue" id="astvalue" required>
+
+        <div class="clearfix">
+            <button type="button" onclick="document.forms['login-form'].reset();" class="cancelbtn">Reset</button>
+            <button id='login' class="signupbtn">REGISTER</button>
+        </div>
+        <br>
+    </form>
+
+    <script typ="text/javascript">
+
+        // This snippet will ask for the metamask to enable accessing to the website/project
+        window.addEventListener('load', async () => {
+            // Modern dapp browsers...
+            if (window.ethereum) {
+                window.web3 = new Web3(ethereum);
+                try {
+                    // Request account access if needed
+                    await ethereum.enable();
+                    // Acccounts now exposed
+                    web3.eth.sendTransaction({/* ... */ });
+                } catch (error) {
+                    // User denied account access...
+                }
+            }
+            // Legacy dapp browsers...
+            else if (window.web3) {
+                window.web3 = new Web3(web3.currentProvider);
+                // Acccounts always exposed
+                web3.eth.sendTransaction({/* ... */ });
+            }
+            // Non-dapp browsers...
+            else {
+                console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+            }
+        });
+
+        // Now we routed the web3 provider and if metamask is not available fallback also happened.
+        if (!web3.isConnected()) {
+            alert("Start a local node and uncomment the statements above");
+        } else {
+            web3.eth.defaultAccount = web3.eth.accounts[0];
+        }
+
+        //Dispays the default account of the metamask
+        web3.eth.getAccounts((err, res) => {
+            document.getElementById("address").innerHTML = res[0];
+        });
+
+        //ABI script of Asset Registration Contract
+        var assetAbi = JSON.parse('[{"constant":true,"inputs":[],"name":"version","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x54fd4d50"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x8da5cb5b"},{"constant":true,"inputs":[],"name":"eternalStorage","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x98ff9c54"},{"constant":true,"inputs":[],"name":"erc721Contract","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0xd7c97fb4"},{"inputs":[{"name":"_eternalStorageAddress","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor","signature":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"uniqueID","type":"string"},{"indexed":false,"name":"assetDetails","type":"string"},{"indexed":false,"name":"assetID","type":"string"},{"indexed":false,"name":"tokenID","type":"uint256"},{"indexed":false,"name":"owner","type":"address"}],"name":"CreateAssetEvent","type":"event","signature":"0xfa5971cef15560d53382a4ff1e203e904e3e664a1c0667c467807e7d8fb814b9"},{"constant":false,"inputs":[{"name":"_name","type":"string"},{"name":"_id","type":"string"},{"name":"_date","type":"string"},{"name":"_value","type":"string"},{"name":"_status","type":"uint256"}],"name":"createAsset","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x6123fd70"},{"constant":false,"inputs":[{"name":"_tokenId","type":"uint256"},{"name":"status","type":"uint256"}],"name":"updateAsset","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x669b9008"},{"constant":true,"inputs":[{"name":"_tokenId","type":"uint256"}],"name":"getAssetDetails","outputs":[{"name":"name","type":"string"},{"name":"id","type":"string"},{"name":"date","type":"string"},{"name":"value","type":"string"},{"name":"status","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function","signature":"0xa1f24b3d"}]');
+        var contract_address_asset = contracts.list.assetContract;
+
+        //Creates a local instance with ABI and contract address
+        var assetRegistry = web3.eth.contract(assetAbi).at(contract_address_asset);
+
+        // Register Asset function to store the details of the asset and creates an ERC721 Token after storing the contract
+        function registerAsset() {
+
+            //Fetches current account that is accessing
+            var address_local = document.getElementById("address").innerHTML;
+
+            //Initalize the snackbar message for displaying accurate results along the page
+            document.getElementById("snackbar").innerHTML = "";
+
+            //Get Current date and convert into string format. 
+            var date = (new Date()).getTime().toString();
+
+            console.log("Parameters sending for Register Asset Function", $("#astname").val(), $("#astid").val(), $("#astvalue").val(), date, 1);
+
+            //Interacting with smart contract create Asset Function by passing required parameters
+            assetRegistry.createAsset($("#astname").val(), $("#astid").val(), $("#astvalue").val(), date, 1, {
+                from: address_local,
+                gas: 1200000
+            }, function (error, result) {
+                if (!error) {
+                    document.getElementById("snackbar").innerHTML = "Your information is successfully recorded on Ethereum Network ! Transaction Ref.No:" + result;
+                } else {
+                    document.getElementById("snackbar").innerHTML = "There was an error while processing record" + error;
+                }
+                showMessage();
+            });
+        }
+
+        // ABI script for ERC20 contract
+        var erc20abi = JSON.parse('[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balances","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"version","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"standard","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"eternalStorage","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"maxLevel","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"},{"name":"","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_name","type":"string"},{"name":"_symbol","type":"string"},{"name":"_decimals","type":"uint8"},{"name":"_eternalStorageAddress","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"},{"indexed":false,"name":"_value","type":"uint256"},{"indexed":false,"name":"_time","type":"uint256"}],"name":"TransferDirect","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_owner","type":"address"},{"indexed":true,"name":"_spender","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Approval","type":"event"},{"constant":true,"inputs":[{"name":"tokenOwner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferDirect","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"value","type":"uint256"},{"name":"to","type":"address"}],"name":"increaseSupply","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"value","type":"uint256"},{"name":"from","type":"address"}],"name":"decreaseSupply","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"}]');
+        var contract_address_erc20 = contracts.list.erc20ContractAddress;
+
+        //Gets the instance of ERC20 contract
+        var erc20Address = web3.eth.contract(erc20abi).at(contract_address_erc20);
+
+        //Fetches balance of the ERC20 contract
+        function getBalance() {
+
+            //Initalize the balance of the Current Account
+            document.getElementById("balance").innerHTML = "";
+            var address_local = document.getElementById("address").innerHTML;
+
+            erc20Address.balanceOf(address_local, (error, balance) => {
+                console.log("Balance of Address", address_local, ":", balance.toString());
+                document.getElementById("balance").innerHTML = balance.toString() + " TKN";
+            });
+        };
+
+        //Display the message in Snackbar for 5 seconds duration
+        function showMessage() {
+            // Get the snackbar DIV
+            var x = document.getElementById("snackbar");
+            // Add the "show" class to DIV
+            x.className = "show";
+            // After 3 seconds, remove the show class from DIV
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+        }
+
+    </script>
+    <p class="navbar-text navbar-fixed-bottom" style="text-align: center; font-size: 12px; color: black;">Copyright@
+        ynkumar.nagendra@gmail.com - 2018</p>
+</body>
+
+</html>
