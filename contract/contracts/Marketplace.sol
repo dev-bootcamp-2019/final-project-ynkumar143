@@ -180,7 +180,7 @@ contract Marketplace is BaseService {
         uint256 auctionId = tokenIdToAuctionId[_tokenId];
 
         uint256 poolSize = getAuctionSize(_tokenId);
-        uint256[] memory result = new uint256[](poolSize);
+        uint256[] memory result = new uint256[](poolSize + 1);
         uint256 total = bids.length; // totalSupply is cases.lenght -1, 0 index is reserved
         uint256 resultIndex = 0;
 

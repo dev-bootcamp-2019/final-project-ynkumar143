@@ -59,7 +59,7 @@ contract Asset is BaseService {
         //pass unique id of the asset for creating in NFT id
         uint256  tokenID  = erc721Contract.createNFT(_id, msg.sender);
        
-        eternalStorage.setAddress(keccak256(abi.encodePacked("asset.id", assetIndex)), msg.sender);
+        eternalStorage.setAddress(keccak256(abi.encodePacked("asset.address", assetIndex)), msg.sender);
 
         //name of the asset is mapped with index of the asset
         eternalStorage.setString(keccak256(abi.encodePacked("asset.name", assetIndex)), _name);
@@ -77,7 +77,7 @@ contract Asset is BaseService {
         eternalStorage.setString(keccak256(abi.encodePacked("asset.value", assetIndex)), _value);
 
         //status of asset is mapped with index
-        eternalStorage.setUint(keccak256(abi.encodePacked("asset.Status", assetIndex)), 0);
+        eternalStorage.setUint(keccak256(abi.encodePacked("asset.Status", assetIndex)), _status);
 
         //detailed registered mapping is done here
         eternalStorage.setUint(keccak256(abi.encodePacked("asset.lastUpdated", assetIndex)), now);
