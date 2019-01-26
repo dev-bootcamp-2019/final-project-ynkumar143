@@ -6,7 +6,9 @@ Screenshots: https://drive.google.com/drive/folders/1VhUl2R9NjlI_cAhlgbYZOyqRfKu
 
 # Auction Platform on Blockchain
 
-Consensys Academy Developers Course - https://courses.consensys.net/courses/course-v1:ConsenSysAcademy+2018DP+2/course/
+Consensys Academy Developers Course
+
+Link: https://courses.consensys.net/courses/course-v1:ConsenSysAcademy+2018DP+2/course/
 
 ## Introduction
 
@@ -28,19 +30,18 @@ Once Unique NFT token is created, now the owner of asset is ready to place the p
 
 Buyers will access the marketplace and place bids on particular asset by providing bid price. 
 
-Owner now closes the auction by viewing bids required and transfers asset ownership to highest bidder by deducted ERC20 token money from the highest bidder. 
+Owner now closes the auction by viewing bids required and on close contract transfers asset ownership to highest bidder by deducting ERC20 token money from the highest bidder. 
 
-To represent above functionality, a sample GUI is build and screenshots are captured detailing complete Demo. 
+To represent above functionality, a sample UI is build and screenshots are captured detailing complete Demo. 
 
 The contract itself are developed using the [Truffle](https://truffleframework.com/truffle) development framework v5.0.2, and [Solidity](https://solidity.readthedocs.io/en/v0.5.1/) compiler v0.5.0.
 
 
 This dapp has been submitted as a final project for the Consensys Academy Developers Course, October 2018 - January 2019.
 
+Rules followed while implementing Dapp
 
-Some Rules Followed while implementing Dapp
-
-1. Owner of an item announces that an item is up for sale, sets the base price and starts the timer.
+1. Owner of an item announces that an item is up for sale, sets the base price.
 2. Each bidder has a fixed amount disposable for auction in his/her wallet. Bidder can’t bid more
 than the wallet contents.
 3. The bidders place their bids in real time and continue participating in the bidding process.
@@ -90,7 +91,8 @@ Buyer/Bidder - Bids on the assets available on the marketplace and tracks the bi
 
 
 **Initial deployment walkthrough**
-#Instructions
+
+###Instructions
 
 1) Token ID: Uniquely Created NFT ID for asset registered in Home Page
 2) Action: Specifies action to be performed by each User (Refer to User Stories in Readme Page)
@@ -98,22 +100,27 @@ Buyer/Bidder - Bids on the assets available on the marketplace and tracks the bi
 4) Bids : Displays list of bids placed for that auction
 5) Track the Asset Status(REGISTERED, MARKET, SOLD, UNSOLD) in View Information of each asset 
 
-#User Actions
+###User Actions
 
 A) Asset owner user will have option to Start the Auction (If Owner is "YES", Auction Button will pop up)
+
 B) User placing Bid the action will be "BID" 
+
 C) Placed Bids can be seen in Bids Page 
+
 D) Owner of the Asset can Stop Auction in Bids View Pop window 
 
-#Backend Operations 
+###Backend Operations 
 
 I) Asset Registeration will start an Auction Pool by mapping unique id(NFT ID) of Asset 
+
 II) After placing Bid by bidder, asset owner request approval of tokens for the bid cost 
+
 III) On Successful Close of Auction, asset(NFT) is transferred to selected bid owner and ERC20 tokens are deducted from selected bidder to Owner 
 
 ## Application setup
 
-The source code for the marketplace dapp can be found on [Github](https://github.com/dev-bootcamp-2019/final-project-SuperSuperSingh/). 
+The source code for the marketplace dapp can be found on [Github](https://github.com/ynkumar143/final-project-ynkumar143). 
 
 ### Development Environment 
 
@@ -160,9 +167,36 @@ In another terminal (or tab), run
 $ truffle migrate --reset
 ```
 Note that the first instance of project setup may require administrator access - $sudo truffle migrate --reset
+
+
+In another terminal (or tab), run
+```
+$ node app.js
+```
+This creates a local server in which the GUI can be accessed. The typical address is localhost:3001
+
+Metamask setup in Localhost
+
+Once the ganache-cli is running with localhost server (127.0.0.1:8545). Open your browser after successful installation of metamask, change the network to localhost 8545 in metamask. 
+
+Now import an admin account from ganache-cli console (First account) and checkc the ERC20 token balance by adding ERC20 address in custom token setup. 
+
+Rinkeby testnet Deployment
+
+Once you have funds in your account, visit infura.io, create a free account and a new project. Change the project endpoint to "Rinkeby", and copy the project ID. Assign this ID to the infuraKey constant in truffle-config.js. Uncomment all code.
+
+For Truffle to derive the Ethereum address from your mnemonic, Truffle HD wallet provider needs to be installed. Run the command
+```
+$ npm install truffle-hdwallet-provider
+```
+Once completed, type the following into your command line
+
+```
+$ truffle migrate --network rinkeby
 ```
 
-This creates a local server in which the GUI can be accessed. The typical address is localhost:3000
+Which should deploy the contract to the Rinkeby testnet.
+
 
 ## Project Requirements
 ### User Interface Requirements
