@@ -134,7 +134,7 @@ III) On Successful Close of Auction, asset(NFT) is transferred to selected bid o
 
 ## Application setup
 
-The source code for the marketplace dapp can be found on [Github](https://github.com/ynkumar143/final-project-ynkumar143). 
+The source code for the marketplace dapp can be found on [Github](https://github.com/dev-bootcamp-2019/final-project-ynkumar143). 
 
 ### Development Environment 
 
