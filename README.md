@@ -69,14 +69,14 @@ Owner - Owner of the asset registeres and start the auction and closes auction
 
 Buyer/Bidder - Bids on the assets available on the marketplace and tracks the bids
 
-#Upgradability
+### Upgradability
 
 Smart contract especially Asset Registration (Asset.sol) is completely upgradable using the Eternal storage upgrade mechanism. 
 All the contract instance are stored in cryptographic format and modify the contract address at any instance by changing business logic. 
 
 Eternal Storage - This contract can't be updated and it is the contract only for storage based on data types. 
 
-#Inherited Contracts
+### Inherited Contracts
 
 Contracts are inhertied using the BaseService.sol contract properties. Inheriting BaseService, Utils and Pause for Emergency Stop Mechanism are utilized in project structures. 
 
@@ -106,7 +106,7 @@ Contracts are inhertied using the BaseService.sol contract properties. Inheritin
 
 **Initial deployment walkthrough**
 
-###Instructions
+### Instructions
 
 1) Token ID: Uniquely Created NFT ID for asset registered in Home Page
 2) Action: Specifies action to be performed by each User (Refer to User Stories in Readme Page)
@@ -114,7 +114,7 @@ Contracts are inhertied using the BaseService.sol contract properties. Inheritin
 4) Bids : Displays list of bids placed for that auction
 5) Track the Asset Status(REGISTERED, MARKET, SOLD, UNSOLD) in View Information of each asset 
 
-###User Actions
+### User Actions
 
 A) Asset owner user will have option to Start the Auction (If Owner is "YES", Auction Button will pop up)
 
@@ -124,7 +124,7 @@ C) Placed Bids can be seen in Bids Page
 
 D) Owner of the Asset can Stop Auction in Bids View Pop window 
 
-###Backend Operations 
+### Backend Operations 
 
 I) Asset Registeration will start an Auction Pool by mapping unique id(NFT ID) of Asset 
 
