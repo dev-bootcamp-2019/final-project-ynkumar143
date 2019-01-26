@@ -189,13 +189,28 @@ $ node app.js
 ```
 This creates a local server in which the GUI can be accessed. The typical address is localhost:3001
 
-Metamask setup in Localhost
+In UI for using local contract addresses information, modify the contracts.js file with updated contract addresses. The same can be followed if you are connecting to mainnet, testnet(Ropsten, rinkeby, kovan) or private network. 
+
+Below is the js file paramters to be updated. (ABI scripts are updated according to the finilized contracts) 
+
+``var contracts = {
+    "list": {
+      "erc20ContractAddress": "0x7bCB73d24bb9871D0CB54aCddab0F9c0286F0bEd",
+      "marketPlaceContract" : "0x9d7b47D42CDaa285636f88Dd268b0Ff2b5704F3c",
+      "assetContract": "0x21E27475c40D12238dD957b6A078Bc0E3c20Bd1d",
+      "erc721Contract": "0x9AD86c64A6Cb8723897057982CEc968d3ff4298A"
+    }
+  }
+`
+
+```
+### Metamask setup in Localhost
 
 Once the ganache-cli is running with localhost server (127.0.0.1:8545). Open your browser after successful installation of metamask, change the network to localhost 8545 in metamask. 
 
 Now import an admin account from ganache-cli console (First account) and checkc the ERC20 token balance by adding ERC20 address in custom token setup. 
 
-Ropsten testnet Deployment
+### Ropsten testnet Deployment
 
 Once you have funds in your account, visit infura.io, create a free account and a new project. Change the project endpoint to "Rinkeby", and copy the project ID. Assign this ID to the infuraKey constant in truffle-config.js. Uncomment all code.
 
