@@ -16,7 +16,7 @@ Migrations dry-run (simulation)
    Deploying 'Migrations'
    ----------------------
    > account:             0x0a118882677b463542DCBAC608627C1c68b606c8
-   > balance:             1.999460312
+   > balance:             1.796546092
    > gas used:            269844
    > gas price:           2 gwei
    > value sent:          0 ETH
@@ -32,7 +32,7 @@ Migrations dry-run (simulation)
    Deploying 'BaseStorage'
    -----------------------
    > account:             0x0a118882677b463542DCBAC608627C1c68b606c8
-   > balance:             1.994683076
+   > balance:             1.791768856
    > gas used:            2361584
    > gas price:           2 gwei
    > value sent:          0 ETH
@@ -42,62 +42,62 @@ Migrations dry-run (simulation)
    Deploying 'Asset'
    -----------------
    > account:             0x0a118882677b463542DCBAC608627C1c68b606c8
-   > balance:             1.98987907
-   > gas used:            2402003
+   > balance:             1.786982832
+   > gas used:            2393012
    > gas price:           2 gwei
    > value sent:          0 ETH
-   > total cost:          0.004804006 ETH
+   > total cost:          0.004786024 ETH
 
 
    Deploying 'ERC721'
    ------------------
    > account:             0x0a118882677b463542DCBAC608627C1c68b606c8
-   > balance:             1.98595746
-   > gas used:            1960805
+   > balance:             1.781794824
+   > gas used:            2594004
    > gas price:           2 gwei
    > value sent:          0 ETH
-   > total cost:          0.00392161 ETH
+   > total cost:          0.005188008 ETH
 
 
    Deploying 'ERC20'
    -----------------
    > account:             0x0a118882677b463542DCBAC608627C1c68b606c8
-   > balance:             1.983889796
-   > gas used:            1033832
+   > balance:             1.77853104
+   > gas used:            1631892
    > gas price:           2 gwei
    > value sent:          0 ETH
-   > total cost:          0.002067664 ETH
+   > total cost:          0.003263784 ETH
 
 
    Deploying 'Marketplace'
    -----------------------
    > account:             0x0a118882677b463542DCBAC608627C1c68b606c8
-   > balance:             1.981175814
-   > gas used:            1356991
+   > balance:             1.775677536
+   > gas used:            1426752
    > gas price:           2 gwei
    > value sent:          0 ETH
-   > total cost:          0.002713982 ETH
+   > total cost:          0.002853504 ETH
 
 
 
 Set Storage Address:
-0x6b8ED91C874cE10e11bCB38Bc64f86a6176EaFD3
+0xd45496C4b9a896cb32d41487E01df5C43c32E15A
 Set Asset Storage Address:
-0x51065B8b6DD9dB09eFDb27e7a2AEd1fee40F2380
+0xE2eE443273515535A6B1eFaCAAB3f1B6e56a414C
 Set ERC721 Address:
-0x9ebB2323015adb3db35895c33274bC2DF0a8045E
+0x1e8b383f3aCCae679673b71CcB3c32a0D5D2a81d
 Set ERC20 Address:
-0x2Cd6f865f21D314Dd4ed056c47439593EADC1894
+0x98eeE27c3bbE1c941b0a4E68DEc769Ebe82aE424
 Set Marketplace Address:
-0x7e9162424baff0830D3b0148E777eC84430e6780
+0x3Da1587668E80200e76710F8498fD837D4A3c7FC
    -------------------------------------
-   > Total cost:          0.01823043 ETH
+   > Total cost:         0.020814488 ETH
 
 
 Summary
 =======
 > Total deployments:   6
-> Final cost:          0.018770118 ETH
+> Final cost:          0.021354176 ETH
 
 ⚠️  Important ⚠️
 If you're using an HDWalletProvider, it must be Web3 1.0 enabled or your migration will hang.
@@ -115,11 +115,11 @@ Starting migrations...
 
    Deploying 'Migrations'
    ----------------------
-   > transaction hash:    0x3bb8cff951a03cfdae779a37bd5b4b4a750151bc58ace7d32d83ba6a2822684a
-   > Blocks: 0            Seconds: 45
-   > contract address:    0x19b2dFac2353FbaE9fCCA895cA23F8d94ffA4062
+   > transaction hash:    0xb05f99047f047a6b523bb401a843db8d0967f8954c56563c48353e89e62eb296
+   > Blocks: 2            Seconds: 41
+   > contract address:    0xfe60A1256F0561351bCF0a31477767f3b1fa5537
    > account:             0x0a118882677b463542DCBAC608627C1c68b606c8
-   > balance:             1.99430312
+   > balance:             1.7913889
    > gas used:            284844
    > gas price:           20 gwei
    > value sent:          0 ETH
@@ -137,11 +137,11 @@ Starting migrations...
 
    Deploying 'BaseStorage'
    -----------------------
-   > transaction hash:    0x150b08586a8e1f917d72ae361c7eff687acb9d394890312d7b4459bd2df061b4
-   > Blocks: 1            Seconds: 9
-   > contract address:    0x6b8ED91C874cE10e11bCB38Bc64f86a6176EaFD3
+   > transaction hash:    0x85b693f633bd9d45af730262c9d27e965f90f7370a89c265f96909987f6bd257
+   > Blocks: 1            Seconds: 25
+   > contract address:    0xd45496C4b9a896cb32d41487E01df5C43c32E15A
    > account:             0x0a118882677b463542DCBAC608627C1c68b606c8
-   > balance:             1.94593076
+   > balance:             1.74301654
    > gas used:            2376584
    > gas price:           20 gwei
    > value sent:          0 ETH
@@ -150,76 +150,75 @@ Starting migrations...
 
    Deploying 'Asset'
    -----------------
-   > transaction hash:    0x37f5f88f02c7f256cc3315349f2aa098ad9dd40f3c9517190eac7f81fd1b196d
-   > Blocks: 0            Seconds: 25
-   > contract address:    0x51065B8b6DD9dB09eFDb27e7a2AEd1fee40F2380
+   > transaction hash:    0x1d815e16181195b0412772324a11c8ca655088fcae879315b4a4806782c4ffd0
+   > Blocks: 1            Seconds: 5
+   > contract address:    0xE2eE443273515535A6B1eFaCAAB3f1B6e56a414C
    > account:             0x0a118882677b463542DCBAC608627C1c68b606c8
-   > balance:             1.8969787
-   > gas used:            2447603
+   > balance:             1.6942443
+   > gas used:            2438612
    > gas price:           20 gwei
    > value sent:          0 ETH
-   > total cost:          0.04895206 ETH
+   > total cost:          0.04877224 ETH
 
 
    Deploying 'ERC721'
    ------------------
-   > transaction hash:    0xfcc6c682f780bf621ac7a750efd37820b32679326da4347786527d45eca68ca8
-   > Blocks: 1            Seconds: 73
-   > contract address:    0x9ebB2323015adb3db35895c33274bC2DF0a8045E
+   > transaction hash:    0x8869299205dfa78986cfaebce5dc2ca0ac73cba9af3d5fcd4ce6859d8e59faee
+   > Blocks: 0            Seconds: 17
+   > contract address:    0x1e8b383f3aCCae679673b71CcB3c32a0D5D2a81d
    > account:             0x0a118882677b463542DCBAC608627C1c68b606c8
-   > balance:             1.8560586
-   > gas used:            2046005
+   > balance:             1.63985622
+   > gas used:            2719404
    > gas price:           20 gwei
    > value sent:          0 ETH
-   > total cost:          0.0409201 ETH
+   > total cost:          0.05438808 ETH
 
 
    Deploying 'ERC20'
    -----------------
-   > transaction hash:    0xc5c024f69f9ff1a764bbb65079077d7c9c966bfa90b0a7882f2c012256818b28
-   > Blocks: 0            Seconds: 13
-   > contract address:    0x2Cd6f865f21D314Dd4ed056c47439593EADC1894
+   > transaction hash:    0xb158f75efe4e0d5a9c52e86d255298f01f602db770ee274a378cf6fab327c2ab
+   > Blocks: 1            Seconds: 9
+   > contract address:    0x98eeE27c3bbE1c941b0a4E68DEc769Ebe82aE424
    > account:             0x0a118882677b463542DCBAC608627C1c68b606c8
-   > balance:             1.83287396
-   > gas used:            1159232
+   > balance:             1.60390638
+   > gas used:            1797492
    > gas price:           20 gwei
    > value sent:          0 ETH
-   > total cost:          0.02318464 ETH
+   > total cost:          0.03594984 ETH
 
 
    Deploying 'Marketplace'
    -----------------------
-   > transaction hash:    0x064192b151a88ebdf67ab0cd5453751b183a319536378e53b2a29bbe315a63df
-   > Blocks: 0            Seconds: 42
-   > contract address:    0x7e9162424baff0830D3b0148E777eC84430e6780
+   > transaction hash:    0x8c79d72a8013cb10f448110b69d58155b69d3084f910be542a563f6b1e9546ec
+   > Blocks: 1            Seconds: 14
+   > contract address:    0x3Da1587668E80200e76710F8498fD837D4A3c7FC
    > account:             0x0a118882677b463542DCBAC608627C1c68b606c8
-   > balance:             1.80502614
-   > gas used:            1392391
+   > balance:             1.57466334
+   > gas used:            1462152
    > gas price:           20 gwei
    > value sent:          0 ETH
-   > total cost:          0.02784782 ETH
+   > total cost:          0.02924304 ETH
 
 
 
 Set Storage Address:
-0x6b8ED91C874cE10e11bCB38Bc64f86a6176EaFD3
+0xd45496C4b9a896cb32d41487E01df5C43c32E15A
 Set Asset Storage Address:
-0x51065B8b6DD9dB09eFDb27e7a2AEd1fee40F2380
+0xE2eE443273515535A6B1eFaCAAB3f1B6e56a414C
 Set ERC721 Address:
-0x9ebB2323015adb3db35895c33274bC2DF0a8045E
+0x1e8b383f3aCCae679673b71CcB3c32a0D5D2a81d
 Set ERC20 Address:
-0x2Cd6f865f21D314Dd4ed056c47439593EADC1894
+0x98eeE27c3bbE1c941b0a4E68DEc769Ebe82aE424
 Set Marketplace Address:
-0x7e9162424baff0830D3b0148E777eC84430e6780
+0x3Da1587668E80200e76710F8498fD837D4A3c7FC
 
    > Saving migration to chain.
    > Saving artifacts
    -------------------------------------
-   > Total cost:           0.1884363 ETH
+   > Total cost:          0.21588488 ETH
 
 
 Summary
 =======
 > Total deployments:   6
-> Final cost:          0.19413318 ETH
-
+> Final cost:          0.22158176 ETH

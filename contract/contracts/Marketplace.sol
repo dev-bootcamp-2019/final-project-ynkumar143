@@ -23,6 +23,15 @@ contract Marketplace is BaseService {
         version = 1;
     }
 
+
+    /// @dev onlyAssetOwner only asset owner can update the status of the asset
+    modifier onlyAssetOwner(uint256 assetIndex) {
+        if (msg.sender != eternalStorage.getAddress(keccak256(abi.encodePacked("asset.address", assetIndex)))) {
+            revert();
+        }
+        _;
+    }
+
     ///@dev Auction structure to record details required for starting auction
     ///@param seller seller/owner of the product for which auction has been started
     ///@param reservePrice reservePrice/minimum price that bid should be placed for
@@ -54,20 +63,18 @@ contract Marketplace is BaseService {
     /// @param _tokenId nft id of each asset that is registered
     /// @param _reservePrice reserve/minimum price of the asset
     /// @param _duration of the auction is running for
-    /// @param _seller of the asset who started auction
     /// @param _timestamp of the auction started
     function createAuction(
         uint256 _tokenId,
         uint256 _reservePrice,
         uint256 _duration,
-        address _seller,
         uint256 _timestamp
     )
-    public returns(uint256)
+    public onlyAssetOwner(_tokenId) returns(uint256)
     {
         // store the auction details in Auction structure
         Auction memory auction = Auction(
-            _seller,
+            msg.sender,
             _reservePrice,
             _duration,
             _timestamp
@@ -89,15 +96,14 @@ contract Marketplace is BaseService {
         tokenIdToAuctionId[_tokenId] = newId;
 
         //Emit an Event for each auction
-        emit CreateAuctionEvent(_tokenId, _reservePrice, _seller, newId);
+        emit CreateAuctionEvent(_tokenId, _reservePrice, msg.sender, newId);
+
         return newId;
     }
 
     /// @dev create Bid that is placed by multiple bidders
-    /// @param _bidder address of the bidder placing a bid for auction
     /// @param _tokenId auction id for which the bid is placed 
     function createBid(
-        address _bidder,
         uint256 _tokenId,
         uint256 _amount,     
         uint256 _timeStamp
@@ -105,7 +111,7 @@ contract Marketplace is BaseService {
     public returns(uint256, uint256)
     {
         Bid memory bid = Bid(
-            _bidder,
+            msg.sender,
             _amount,
             _timeStamp
         );
@@ -130,7 +136,7 @@ contract Marketplace is BaseService {
         emit BidPlaced(
             _tokenId,
             _amount,
-            _bidder,
+            msg.sender,
             _timeStamp);
 
         return (newId, auctionId);

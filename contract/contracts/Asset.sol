@@ -82,7 +82,7 @@ contract Asset is BaseService {
         //detailed registered mapping is done here
         eternalStorage.setUint(keccak256(abi.encodePacked("asset.lastUpdated", assetIndex)), now);
 
-        emit CreateAssetEvent(_name, _id, _value, tokenID,  owner);
+        emit CreateAssetEvent(_name, _id, _value, tokenID,  msg.sender);
         return (assetIndex);
     }
 

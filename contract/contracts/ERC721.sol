@@ -3,9 +3,10 @@ pragma solidity >=0.4.21 <0.6.0;
 
 import './Service/IERC721.sol';
 import "./Service/BaseService.sol";
+import "./Library/Pausable.sol";
 
 /// ERC721 non-fungible token
-contract ERC721 is IERC721, BaseService {
+contract ERC721 is IERC721, BaseService, Pausable {
 
     string _name; 
 
@@ -63,7 +64,7 @@ contract ERC721 is IERC721, BaseService {
     }
     
 
-    function createNFT(string memory _assetID, address _owner) public returns (uint) {   
+    function createNFT(string memory _assetID, address _owner) public whenNotPaused returns (uint) {   
     
         // save new NFT in array and get token Id
         uint256 newId = nfts.push(_assetID) - 1; // push returns new array length, so caseId starts from 0
@@ -145,7 +146,7 @@ contract ERC721 is IERC721, BaseService {
     }
     
     
-    function transfer(address _to, uint256 _tokenId) external {
+    function transfer(address _to, uint256 _tokenId) external whenNotPaused{
         require(_to != address(0));
         require(_to != address(this));
 
@@ -153,14 +154,14 @@ contract ERC721 is IERC721, BaseService {
         _transfer(msg.sender, _to, _tokenId);
     }
     
-    function approve(address _to, uint256 _tokenId) external {
+    function approve(address _to, uint256 _tokenId) external whenNotPaused{
         require(_owns(msg.sender, _tokenId));
 
         _approve(_tokenId, _to);
         emit Approval(msg.sender, _to, _tokenId);
     }
     
-    function transferFrom(address _from, address _to, uint256 _tokenId) external {
+    function transferFrom(address _from, address _to, uint256 _tokenId) external whenNotPaused{
         require(_to != address(0));
         require(_to != address(this));
         require(_approvedFor(msg.sender, _tokenId));

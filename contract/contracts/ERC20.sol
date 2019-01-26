@@ -4,11 +4,12 @@ pragma solidity >=0.4.21 <0.6.0;
 import './Service/IERC20.sol';
 import "./Service/BaseService.sol";
 import "./Library/Utils.sol";
+import "./Library/Pausable.sol";
 
 /**
     ERC20 Standard Token implementation
 */
-contract ERC20 is IERC20, Utils, BaseService {
+contract ERC20 is IERC20, Utils, BaseService, Pausable {
 
     string name; 
 
@@ -46,6 +47,7 @@ contract ERC20 is IERC20, Utils, BaseService {
     function transfer(address _to, uint256 _value)
         public
         validAddress(_to)
+        whenNotPaused
         returns (bool success)
     {
         balances[msg.sender] = safeSub(balances[msg.sender], _value);
@@ -58,6 +60,7 @@ contract ERC20 is IERC20, Utils, BaseService {
         public
         validAddress(_from)
         validAddress(_to)
+        whenNotPaused
         returns (bool success)
     {
         allowance[_from][msg.sender] = safeSub(allowance[_from][msg.sender], _value);
@@ -70,17 +73,18 @@ contract ERC20 is IERC20, Utils, BaseService {
     function approve(address _spender, uint256 _value)
         public
         validAddress(_spender)
+        whenNotPaused
         returns (bool success)
     {
         // if the allowance isn't 0, it can only be updated to 0 to prevent an allowance change immediately after withdrawal
-        require(_value == 0 || allowance[msg.sender][_spender] == 0);
+        //require(_value == 0, "Value coming for approve is 0");
 
-        allowance[msg.sender][_spender] = _value;
+        allowance[msg.sender][_spender] = safeAdd(allowance[msg.sender][_spender], _value);
         emit Approval(msg.sender, _spender, _value);
         return true;
     }
 
-        function getAllowance(address _spender)
+    function getAllowance(address _spender)
         public
         view
         returns (uint256)
@@ -88,3 +92,4 @@ contract ERC20 is IERC20, Utils, BaseService {
         return allowance[msg.sender][_spender];
     }
 }
+
