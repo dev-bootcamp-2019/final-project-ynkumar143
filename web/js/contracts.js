@@ -1,10 +1,8 @@
 var contracts = {
     "list": {
-      "erc20ContractAddress": "0xd70670d9c0335eDCa64cDb67e2AA2838910DB2e7",
-      "marketPlaceContract" : "0x230601559E25F9ac0dEe607ED2b30dFeD6c9979B",
-      "assetContract": "0xFE73751266b2FcD0Ab9ACd1Db0eC9ACfa97Eb059",
-      "erc721Contract": "0x1a7E01426FF1CAA5d55384FeE4dD8554e26EaeE0"
+      "erc20ContractAddress": "0xf4f398D683aeaD1fd86616D336d2C6483B6932c9",
+      "marketPlaceContract" : "0x6958bF7a8FbDe1d83696a96cF9F48f8862c8334e",
+      "assetContract": "0x6710785505c087A6B97e929c0eC5a8D23D499cd4",
+      "erc721Contract": "0xd135864ce0Cadf39404A9cD331a6bF3b24A0eFB3"
     }
   }
-
-  

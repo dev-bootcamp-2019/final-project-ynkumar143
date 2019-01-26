@@ -506,7 +506,9 @@
                 document.getElementById("TableTranSentBid").innerHTML = "";
                 console.log("Bids that are available for auction are", balance.toString());
                 //Loop over each bid that is fetched in Auction and get Bid details via Promise function
-                for (var i = 1; i <= balance.length; i++) {
+
+                
+                for (var i = 0; i <= (balance.length + 1); i++) {
 
                     if (balance[i] > 0) {
                         console.log("Currently fetching for bid di", balance[i].toString())
@@ -515,7 +517,7 @@
                         console.log('Bid ID is', str)
 
                         var value = new Promise((resolve, reject) => {
-                            auctionAddress.getBid(i, (err, info) => {
+                            auctionAddress.getBid(balance[i], (err, info) => {
                                 if (err) {
                                     return reject(err)
                                 }

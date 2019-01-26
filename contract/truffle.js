@@ -12,6 +12,12 @@ require("babel-register")({
 });
 require("babel-polyfill");
 
+var HDWalletProvider = require("truffle-hdwallet-provider");
+
+var infura_apikey = "8968b8c3167b44ff8c0387bae8241558";
+var mnemonic = "case glass whip ripple magnet rookie speak phrase pink rib net utility";
+
+
 
 //Here you can multiple networks, For adding another network on to different environemnt use comma seperateion and repeat the same. -
 module.exports = {
@@ -23,6 +29,10 @@ module.exports = {
       gas: "6617818",
      // from: "0x062d42d125aff12ac3980b74882ec3ef1fd16929",
       network_id: "*"// Match any network id
+    },
+    ropsten: {
+      provider: new HDWalletProvider(mnemonic, "https://ropsten.infura.io/"+infura_apikey),
+      network_id: 3
     },
     coverage: {
       host: "localhost",
