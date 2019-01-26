@@ -176,6 +176,9 @@ In one terminal, run
 $ ganache-cli
 ```
 
+```
+npm install
+```
 In another terminal (or tab), run
 ```
 $ truffle migrate --reset
