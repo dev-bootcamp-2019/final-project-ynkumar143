@@ -172,13 +172,15 @@ $ sudo npm install -g truffle
 To run the app, clone the Github repo to your local machine, and navigate to the contract folder.
 
 In one terminal, run
+
+```
+$ sudo npm install
+```
+
 ```
 $ ganache-cli
 ```
 
-```
-npm install
-```
 In another terminal (or tab), run
 ```
 $ truffle migrate --reset
@@ -186,7 +188,12 @@ $ truffle migrate --reset
 Note that the first instance of project setup may require administrator access - $sudo truffle migrate --reset
 
 
-In another terminal (or tab), run
+In another terminal (or tab) move to main folder (i.e ../) , run
+
+```
+$ sudo npm install
+```
+
 ```
 $ node app.js
 ```
@@ -212,6 +219,9 @@ var contracts = {
 Once the ganache-cli is running with localhost server (127.0.0.1:8545). Open your browser after successful installation of metamask, change the network to localhost 8545 in metamask. 
 
 Now import an admin account from ganache-cli console (First account) and checkc the ERC20 token balance by adding ERC20 address in custom token setup. 
+
+### Demo View
+Once you setup everything,a demo video will explain complete functionality of the project. https://youtu.be/zX6B4jjccL8
 
 ### Ropsten testnet Deployment
 
@@ -508,7 +518,7 @@ ERC20 Balance for Bidder 2 is 8569
 ### Security Tools / Common Attacks
 - [x] Explain what measures you’ve taken to ensure that your contracts are not susceptible to common attacks
 - [x] Use a library or extend a contract
-- [x] Via EthPM or write your own
+- [x] Inherited Contracts
 ### Stretch Requirements
 - [x] Deploy contract on testnet
 - [x] Add functionality that allows store owners to create an auction
